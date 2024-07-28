@@ -1,8 +1,7 @@
-# :earth_americas: GDP dashboard template
+# Model Display Demo for Welift
 
-A simple Streamlit app showing the GDP of different countries in the world.
+A simple Streamlit app showing engagement score of client
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://gdp-dashboard-template.streamlit.app/)
 
 ### How to run it on your own machine
 
