@@ -5,14 +5,6 @@ import matplotlib.pyplot as plt
 import joblib
 import datetime
 
-# Set the title and favicon that appear in the Browser's tab bar.
-st.set_page_config(
-    page_title='WeLift dashboard',
-    page_icon=':earth_americas:', # This is an emoji shortcode. Could be a URL too.
-)
-
-
-
 # Load the model
 model = joblib.load('RF_Engagement.joblib')
 
@@ -61,7 +53,11 @@ def preprocess_input(input_data):
 
 # Main app
 def main():
-    st.set_page_config(layout='wide')
+    # Set the title and favicon that appear in the Browser's tab bar.
+    st.set_page_config(
+        page_title='WeLift dashboard',
+        page_icon=':earth_americas:', # This is an emoji shortcode. Could be a URL too.
+    )
 
     # Sidebar inputs
     with st.sidebar:
