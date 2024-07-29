@@ -59,6 +59,8 @@ def main():
         page_icon=':earth_americas:', # This is an emoji shortcode. Could be a URL too.
     )
 
+    prediction = None
+
     # Sidebar inputs
     with st.sidebar:
         Name = st.text_input('Full Name')
@@ -86,12 +88,13 @@ def main():
     # Make prediction
     prediction = model.predict([preprocess_input(input_data)])[0]
 
-    # Visualize prediction on box plot
-    fig, ax = plt.subplots()
-    ax.boxplot(data['Engagement Score'])  # Replace with your data
-    ax.scatter(1, prediction, color='red')
-    ax.text(1, prediction, f'{prediction:.2f}')
-    st.pyplot(fig)
+    if prediction != None:
+        # Visualize prediction on box plot
+        fig, ax = plt.subplots()
+        ax.boxplot(data['Engagement Score'])  # Replace with your data
+        ax.scatter(1, prediction, color='red')
+        ax.text(1, prediction, f'{prediction:.2f}')
+        st.pyplot(fig)
 
 if __name__ == '__main__':
     main()
