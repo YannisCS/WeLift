@@ -1,151 +1,103 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import math
 from pathlib import Path
+import matplotlib.pyplot as plt
+import joblib
+import datetime
 
 # Set the title and favicon that appear in the Browser's tab bar.
 st.set_page_config(
-    page_title='GDP dashboard',
+    page_title='WeLift dashboard',
     page_icon=':earth_americas:', # This is an emoji shortcode. Could be a URL too.
 )
 
-# -----------------------------------------------------------------------------
-# Declare some useful functions.
-
-@st.cache_data
-def get_gdp_data():
-    """Grab GDP data from a CSV file.
-
-    This uses caching to avoid having to read the file every time. If we were
-    reading from an HTTP endpoint instead of a file, it's a good idea to set
-    a maximum age to the cache with the TTL argument: @st.cache_data(ttl='1d')
-    """
-
-    # Instead of a CSV on disk, you could read from an HTTP endpoint here too.
-    DATA_FILENAME = Path(__file__).parent/'data/gdp_data.csv'
-    raw_gdp_df = pd.read_csv(DATA_FILENAME)
-
-    MIN_YEAR = 1960
-    MAX_YEAR = 2022
-
-    # The data above has columns like:
-    # - Country Name
-    # - Country Code
-    # - [Stuff I don't care about]
-    # - GDP for 1960
-    # - GDP for 1961
-    # - GDP for 1962
-    # - ...
-    # - GDP for 2022
-    #
-    # ...but I want this instead:
-    # - Country Name
-    # - Country Code
-    # - Year
-    # - GDP
-    #
-    # So let's pivot all those year-columns into two: Year and GDP
-    gdp_df = raw_gdp_df.melt(
-        ['Country Code'],
-        [str(x) for x in range(MIN_YEAR, MAX_YEAR + 1)],
-        'Year',
-        'GDP',
-    )
-
-    # Convert years from string to integers
-    gdp_df['Year'] = pd.to_numeric(gdp_df['Year'])
-
-    return gdp_df
-
-gdp_df = get_gdp_data()
-
-# -----------------------------------------------------------------------------
-# Draw the actual page
-
-# Set the title that appears at the top of the page.
-'''
-# :earth_americas: GDP dashboard
-
-Browse GDP data from the [World Bank Open Data](https://data.worldbank.org/) website. As you'll
-notice, the data only goes to 2022 right now, and datapoints for certain years are often missing.
-But it's otherwise a great (and did I mention _free_?) source of data.
-'''
-
-# Add some spacing
-''
-''
-
-min_value = gdp_df['Year'].min()
-max_value = gdp_df['Year'].max()
-
-from_year, to_year = st.slider(
-    'Which years are you interested in?',
-    min_value=min_value,
-    max_value=max_value,
-    value=[min_value, max_value])
-
-countries = gdp_df['Country Code'].unique()
-
-if not len(countries):
-    st.warning("Select at least one country")
-
-selected_countries = st.multiselect(
-    'Which countries would you like to view?',
-    countries,
-    ['DEU', 'FRA', 'GBR', 'BRA', 'MEX', 'JPN'])
-
-''
-''
-''
-
-# Filter the data
-filtered_gdp_df = gdp_df[
-    (gdp_df['Country Code'].isin(selected_countries))
-    & (gdp_df['Year'] <= to_year)
-    & (from_year <= gdp_df['Year'])
-]
-
-st.header('GDP over time', divider='gray')
-
-''
-
-st.line_chart(
-    filtered_gdp_df,
-    x='Year',
-    y='GDP',
-    color='Country Code',
-)
-
-''
-''
 
 
-first_year = gdp_df[gdp_df['Year'] == from_year]
-last_year = gdp_df[gdp_df['Year'] == to_year]
+# Load the model
+model = joblib.load('model.joblib')
 
-st.header(f'GDP in {to_year}', divider='gray')
+# Load data (optional)
+data = pd.read_csv('combine.csv')
 
-''
+input_col = ['Title', 'IsContract', 'IsTemporary', 'IsPartTime', 'IsFullTime',
+       'TerminationType', 'DepartmentType', 'Division', 'State',
+       'JobFunctionDescription', 'GenderCode', 'RaceDesc', 'MaritalDesc',
+       'Work-Life Balance Score', 'Training Program Name',
+       'Training Type', 'Training Duration(Days)', 'Training Cost', 'Age',
+       'TrainingComplete']
+input_data = {key: 0 for key in input_col}
+TitleOptions = ['Production Technician I', 'Area Sales Manager',
+       'Production Technician II', 'IT Support', 'Network Engineer',
+       'Sr. Network Engineer', 'Principal Data Architect',
+       'Enterprise Architect', 'Sr. DBA', 'Database Administrator',
+       'Data Analyst', 'Data Analyst ', 'Data Architect', 'CIO',
+       'BI Director', 'Sr. Accountant', 'Software Engineering Manager',
+       'Software Engineer', 'Shared Services Manager',
+       'Senior BI Developer', 'Production Manager', 'President & CEO',
+       'Administrative Assistant', 'Accountant I', 'BI Developer',
+       'Sales Manager', 'IT Manager - Support', 'IT Manager - Infra',
+       'IT Manager - DB', 'Director of Sales', 'Director of Operations',
+       'IT Director']
+TerminationTypeOptions = ['Unk', 'Involuntary', 'Resignation', 'Retirement', 'Voluntary']
+DepartmentTypeOptions = ['Production       ', 'Sales', 'IT/IS', 'Executive Office','Software Engineering', 'Admin Offices']
+DivisionOptions = ['Finance & Accounting', 'Aerial', 'General - Sga', 'General - Con',
+       'Field Operations', 'General - Eng', 'Engineers', 'Executive',
+       'Splicing', 'Project Management - Con', 'Fielders',
+       'Project Management - Eng', 'Shop (Fleet)',
+       'Wireline Construction', 'Catv', 'Yard (Material Handling)',
+       'Wireless', 'People Services', 'Underground',
+       'Billable Consultants', 'Technology / It', 'Sales & Marketing',
+       'Safety', 'Isp', 'Corp Operations']
+# Function to preprocess input data (including label encoding)
+def preprocess_input(input_data):
+    preprocessed_data = []
+    for key, value in input_data.items():
+        if type(value) == str:
+            le = joblib.load(f'le_{key}.joblib')
+            input_data[key] = le.transform([value])[0]
+    for k in input_col:
+        preprocessed_data.append(input_data[k])
+    return preprocessed_data
 
-cols = st.columns(4)
+# Main app
+def main():
+    st.set_page_config(layout='wide')
 
-for i, country in enumerate(selected_countries):
-    col = cols[i % len(cols)]
+    # Sidebar inputs
+    with st.sidebar:
+        Name = st.text_input('Full Name')
+        StartDate = st.date_input("Enrollment Start Date", datetime.date.today())
+        
+        input_data['Title'] = st.selectbox('Previous Job Title', options=TitleOptions)
+        
+        job_type = st.selectbox("Was previous job a contract?", ("Yes", "No"))
+        input_data['IsContract'] = 1 if job_type == "Yes" else 0
+    
+        job_type = st.selectbox("Type of previous job",("Temporary", "PartTime", "FullTime"))
+        input_data[f'Is{job_type}'] = 1
+                                
+        input_data['TerminationType'] = st.selectbox('Type of Previous Job Termination',options= TerminationTypeOptions)
 
-    with col:
-        first_gdp = first_year[gdp_df['Country Code'] == country]['GDP'].iat[0] / 1000000000
-        last_gdp = last_year[gdp_df['Country Code'] == country]['GDP'].iat[0] / 1000000000
+        input_data['DepartmentType'] = st.selectbox('Previous Job Department',options=DepartmentTypeOptions)
 
-        if math.isnan(first_gdp):
-            growth = 'n/a'
-            delta_color = 'off'
-        else:
-            growth = f'{last_gdp / first_gdp:,.2f}x'
-            delta_color = 'normal'
+        input_data['Division'] = st.selectbox('Previous Job Division', options=DivisionOptions)
 
-        st.metric(
-            label=f'{country} GDP',
-            value=f'{last_gdp:,.0f}B',
-            delta=growth,
-            delta_color=delta_color
-        )
+
+        
+
+    
+
+    # Make prediction
+    prediction = model.predict([preprocess_input(input_data)])[0]
+
+    # Visualize prediction on box plot
+    fig, ax = plt.subplots()
+    ax.boxplot(data['Engagement Score'])  # Replace with your data
+    ax.scatter(1, prediction, color='red')
+    ax.text(1, prediction, f'{prediction:.2f}')
+    st.pyplot(fig)
+
+if __name__ == '__main__':
+    main()
