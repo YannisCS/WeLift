@@ -1,10 +1,9 @@
 streamlit
+streamlit_extras
 pandas
 numpy
 matplotlib
-#scikit-learn
-sklearn.ensemble
-sklearn.preprocessing
+scikit-learn
 joblib
 datetime
 google.generativeai
