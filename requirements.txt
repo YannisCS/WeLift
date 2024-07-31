@@ -3,7 +3,7 @@ streamlit_extras
 pandas
 numpy
 matplotlib
-scikit-learn = 1.2.2
+scikit-learn == 1.2.2
 joblib
 datetime
 google.generativeai
