@@ -1,4 +1,4 @@
-streamlit
+streamlit = 1.37.0
 streamlit_extras
 pandas
 numpy
@@ -7,4 +7,3 @@ scikit-learn == 1.2.2
 joblib
 datetime
 google.generativeai
-python == 3.10
