@@ -111,7 +111,7 @@ def main():
       
     @st.cache_data
     def to_text():
-        return "### Script ###\n\n" + responseScript.text
+        return "### Script ###\n\n" + response.text
 
     btn = st.download_button(
         label="Download Report",
