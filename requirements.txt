@@ -6,4 +6,3 @@ matplotlib
 joblib
 datetime
 google.generativeai
-python == 3.10
