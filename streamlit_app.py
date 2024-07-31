@@ -13,7 +13,7 @@ st.set_page_config(
     layout = 'wide',
     page_icon= "🦾"
 )
-st.Title('Engagement Analysis')
+
 # Load the model
 model = joblib.load('RF_Engagement.joblib')
 
