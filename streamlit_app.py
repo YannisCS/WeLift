@@ -4,15 +4,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import joblib
 import datetime
-from utils import Title
+import google.generativeai as genai
 
-Title()
-
+genai.configure(api_key=AIzaSyBs5rT5G2cM-d2p_Un15THLq1Q7tYsJ9kU)
 # Set the title and favicon that appear in the Browser's tab bar.
-#st.set_page_config(
-   # page_title='WeLift dashboard',
-    #page_icon=':earth_americas:', # This is an emoji shortcode. Could be a URL too.
-#)
+st.set_page_config(
+    page_title='WeLift dashboard',
+    layout = 'wide',
+    page_icon= "🦾"
+)
+st.Title('Engagement Analysis')
 # Load the model
 model = joblib.load('RF_Engagement.joblib')
 
@@ -62,6 +63,7 @@ def preprocess_input(input_data):
 # Main app
 def main():
     
+    st.write('# Analysis Results')
 
     prediction = None
 
@@ -96,6 +98,26 @@ def main():
         ax.scatter(1, prediction, color='red')
         ax.text(1, prediction, f'{prediction:.2f}')
         st.pyplot(fig)
+
+    promptScript = [f'according to the input data {input_data} and the predicted engagement score {prediction} over 5, write a short report of the clint']
+      
+    gen_model = genai.GenerativeModel('gemini-pro')
+                  
+    with st.spinner("Generating..."):
+        response = gen_model.generate_content(promptScript,request_options={"timeout": 600})
+        
+    with st.container():      
+        st.write(response.text)
+      
+    @st.cache_data
+    def to_text():
+        return "### Script ###\n\n" + responseScript.text
+
+    btn = st.download_button(
+        label="Download Report",
+        data=to_text(),
+        file_name=f"{Name}_Report.txt"
+    )
 
 if __name__ == '__main__':
     main()
