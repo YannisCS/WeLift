@@ -6,7 +6,7 @@ import joblib
 import datetime
 import google.generativeai as genai
 
-genai.configure(api_key=AIzaSyBs5rT5G2cM-d2p_Un15THLq1Q7tYsJ9kU)
+genai.configure(api_key='AIzaSyBs5rT5G2cM-d2p_Un15THLq1Q7tYsJ9kU')
 # Set the title and favicon that appear in the Browser's tab bar.
 st.set_page_config(
     page_title='WeLift dashboard',
