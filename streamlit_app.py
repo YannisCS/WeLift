@@ -4,6 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import joblib
 import datetime
+from utils import Title
+
+Title()
 
 # Set the title and favicon that appear in the Browser's tab bar.
 st.set_page_config(
