@@ -93,6 +93,7 @@ def main():
 
     if prediction != None:
         # Visualize prediction on box plot
+        st.write('Engagement Score among all Clients:')
         fig, ax = plt.subplots()
         ax.boxplot(data['Engagement Score'])  # Replace with your data
         ax.scatter(1, prediction, color='red')
