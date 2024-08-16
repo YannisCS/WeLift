@@ -11,7 +11,7 @@ genai.configure(api_key='AIzaSyBs5rT5G2cM-d2p_Un15THLq1Q7tYsJ9kU')
 # Set the title and favicon that appear in the Browser's tab bar.
 st.set_page_config(
     page_title='WeLift dashboard',
-    #layout = 'wide',
+    layout = 'wide',
     page_icon= "🦾"
 )
 
@@ -105,7 +105,6 @@ def main():
         # 生成改进后的图表
         with col1:
             # 将新数据添加到原始数据中
-            
             data_new = pd.concat([data, new_client], ignore_index=True)
 
             # 绘制改进后的图表，并标注新数据
@@ -158,8 +157,15 @@ def main():
                     y="Engagement Score",
                     showmeans=True,
                     data=combined_data
+                )         
+            else:
+                sns.set_theme(style="whitegrid")
+                sns.boxplot(
+                    y="Engagement Score",
+                    data=data
                 )
-                st.pyplot(plt)
+            st.pyplot(plt)
+
 
             
 
