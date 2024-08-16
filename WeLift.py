@@ -151,8 +151,10 @@ def main():
                 x="variable",
                 y="Engagement Score",
                 showmeans=True,
-                data=data_new
-                )
+                data=pd.DataFrame({'variable': ['All Data', 'New Client'], 
+                                   'Engagement Score': [data['Engagement Score'].median(), 
+                                                        new_client['Engagement Score'].iloc[0]]})
+)
             st.pyplot(plt)
             
 
