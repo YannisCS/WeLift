@@ -92,7 +92,7 @@ def main():
             if c in input_col:
                 new_client[c] = input_data[c]
             else:
-                new_client[c] = data[c].median()
+                new_client[c] = data[c].mode().iloc[0]
 
     # Make prediction
     prediction = model.predict([preprocess_input(input_data)])[0]
