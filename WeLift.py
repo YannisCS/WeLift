@@ -99,71 +99,26 @@ def main():
     new_client['Engagement Score'][0] = prediction
 
     if prediction != None:
-        # 创建两个容器，用于并排显示图表
-        col1, col2 = st.columns(2)
+        if len(new_client) > 0:
+            combined_data = pd.concat([data, new_client], ignore_index=True)
+            combined_data['Client'] = 'All Data'
+            combined_data.loc[combined_data.index == new_client.index[0], 'Client'] = 'New Client'
 
-        # 生成改进后的图表
-        with col1:
-            # 将新数据添加到原始数据中
-            data_new = pd.concat([data, new_client], ignore_index=True)
-
-            # 绘制改进后的图表，并标注新数据
+            # Create the boxplot
             sns.set_theme(style="whitegrid")
-            #cmap = sns.cubehelix_palette(rot=-.2, as_cmap=True)
-            
-            sns.set_theme(style="whitegrid")
-
-            # Assuming 'EmpID' and 'GenderCode' are columns in your data DataFrame
-            sns.scatterplot(
-                x="EmpID",
+            sns.boxplot(
+                x="Client",
                 y="Engagement Score",
-                hue="GenderCode",
-                style="GenderCode",  # Optional: add style for different marker shapes based on GenderCode
+                showmeans=True,
+                data=combined_data
+            )         
+        else:
+            sns.set_theme(style="whitegrid")
+            sns.boxplot(
+                y="Engagement Score",
                 data=data
             )
-
-            # Highlight new client data point
-            if len(new_client) > 0:
-                new_client_x = new_client["EmpID"].iloc[0]
-                new_client_y = new_client["Engagement Score"].iloc[0]
-                plt.scatter(new_client_x, new_client_y, color='red', s=100, label='New Client')
-
-                # Add annotation with arrow pointing to new client
-                plt.annotate("New Client", (new_client_x, new_client_y),
-                        xytext=(new_client_x + 0.2, new_client_y + 0.2),
-                        arrowprops=dict(facecolor='red', shrink=0.05))
-
-                # Add legend to differentiate new client point
-                plt.legend()
-                st.pyplot(plt)
-            else:
-                # Handle the case where there's no data in new_client (e.g., set a default value)
-                new_client_x = None  # Or any appropriate default
-                new_client_y = None
-            
-
-        # Right column - Box plot of new client's Engagement Score
-        with col2:
-            if len(new_client) > 0:
-                combined_data = pd.concat([data, new_client], ignore_index=True)
-                combined_data['Client'] = 'All Data'
-                combined_data.loc[combined_data.index == new_client.index[0], 'Client'] = 'New Client'
-
-                # Create the boxplot
-                sns.set_theme(style="whitegrid")
-                sns.boxplot(
-                    x="Client",
-                    y="Engagement Score",
-                    showmeans=True,
-                    data=combined_data
-                )         
-            else:
-                sns.set_theme(style="whitegrid")
-                sns.boxplot(
-                    y="Engagement Score",
-                    data=data
-                )
-            st.pyplot(plt)
+        st.pyplot(plt)
 
 
             
