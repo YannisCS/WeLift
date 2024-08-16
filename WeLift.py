@@ -146,17 +146,19 @@ def main():
 
         # Right column - Box plot of new client's Engagement Score
         with col2:
+            combined_data = pd.concat([data, new_client], ignore_index=True)
+            combined_data['Client'] = 'All Data'
+            combined_data.loc[combined_data.index == new_client.index[0], 'Client'] = 'New Client'
+
+            # Create the boxplot
             sns.set_theme(style="whitegrid")
             sns.boxplot(
-                x="variable",
+                x="Client",
                 y="Engagement Score",
                 showmeans=True,
-                data=pd.DataFrame({'variable': ['All Data', 'New Client'], 
-                                   'Engagement Score': [data['Engagement Score'].median(), 
-                                                        new_client['Engagement Score'].iloc[0]]})
-)
+                data=combined_data
+            )
             st.pyplot(plt)
-            
 
             
 
