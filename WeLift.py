@@ -143,8 +143,7 @@ def main():
                 new_client_x = None  # Or any appropriate default
                 new_client_y = None
                 # Optionally display a message if there's no new client data
-                plt.text(data['Performance Score'].mean(), data['Engagement Score'].mean(),
-                         "No new client data available", ha='center', va='center')
+                
     
             
             
