@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 import joblib
 import datetime
 import google.generativeai as genai
@@ -64,7 +63,11 @@ def preprocess_input(input_data):
 # Main app
 def main():
     
+<<<<<<< HEAD
     st.write('# Predicting Engagement Score by Machine Learning & Report by Gemini')
+=======
+    st.write('# Analysis Results')
+>>>>>>> parent of f11cd8d (plots)
 
     prediction = None
 
@@ -87,18 +90,22 @@ def main():
 
         input_data['Division'] = st.selectbox('Previous Job Division', options=DivisionOptions)
 
+<<<<<<< HEAD
         new_client = pd.DataFrame()
         for c in data.columns:
             if c in input_col:
                 new_client[c] = input_data[c]
             else:
                 new_client[c] = data[c].mode().iloc[0]
+=======
+
+>>>>>>> parent of f11cd8d (plots)
 
     # Make prediction
     prediction = model.predict([preprocess_input(input_data)])[0]
-    new_client['Engagement Score'][0] = prediction
 
     if prediction != None:
+<<<<<<< HEAD
 <<<<<<< HEAD
         plt.figure(figsize=(6, 4))
         if len(new_client) > 0:
@@ -107,11 +114,16 @@ def main():
             combined_data.loc[combined_data.index == new_client.index[0], 'Client'] = 'New Client'
 =======
         # Visualize prediction on box plot
+=======
+        # Visualize prediction on box plot
+        st.write('Engagement Score among all Clients:')
+>>>>>>> parent of f11cd8d (plots)
         fig, ax = plt.subplots()
         ax.boxplot(data['Engagement Score'])  # Replace with your data
         ax.scatter(1, prediction, color='red')
         ax.text(1, prediction, f'{prediction:.2f}')
         st.pyplot(fig)
+<<<<<<< HEAD
 >>>>>>> parent of b38a462 (Update WeLift.py)
 
             # Create the boxplot
@@ -137,6 +149,10 @@ def main():
             
 
     promptScript = [f'according to the input data {input_data} and the predicted engagement score {prediction} over 5, write a short report of the client']
+=======
+
+    promptScript = [f'according to the input data {input_data} and the predicted engagement score {prediction} over 5, write a short report of the clint']
+>>>>>>> parent of f11cd8d (plots)
       
     gen_model = genai.GenerativeModel('gemini-pro')
                   
