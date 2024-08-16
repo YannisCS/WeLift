@@ -105,6 +105,7 @@ def main():
             combined_data.loc[combined_data.index == new_client.index[0], 'Client'] = 'New Client'
 
             # Create the boxplot
+            plt.figure(figsize=(6, 4))
             sns.set_theme(style="whitegrid")
             sns.boxplot(
                 x="Client",
