@@ -106,18 +106,30 @@ def main():
 
             # Create the boxplot
             sns.set_theme(style="whitegrid")
-            sns.boxplot(
+            ax = sns.boxplot(
                 x="Client",
                 y="Engagement Score",
                 showmeans=True,
                 data=combined_data
-            )         
+            )
+
+            # Highlight the new client's engagement score
+            new_client_engagement = new_client['Engagement Score'].iloc[0]
+            ax.scatter(1, new_client_engagement, color='red', marker='x', s=100)
+
+            # Adjust figure size
+            plt.figure(figsize=(6, 4))  # Adjust width and height as needed
+
         else:
             sns.set_theme(style="whitegrid")
-            sns.boxplot(
+            ax = sns.boxplot(
                 y="Engagement Score",
                 data=data
             )
+
+            # Adjust figure size
+            plt.figure(figsize=(4, 4))  # Adjust width and height as needed
+
         st.pyplot(plt)
 
 
