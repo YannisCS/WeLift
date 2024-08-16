@@ -165,7 +165,7 @@ def main():
 
             
 
-    promptScript = [f'according to the new client data {new_client} and the predicted engagement score {prediction} over 5, write a short report of the client']
+    promptScript = [f'according to the input data {input_data} and the predicted engagement score {prediction} over 5, write a short report of the client']
       
     gen_model = genai.GenerativeModel('gemini-pro')
                   
