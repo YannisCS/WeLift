@@ -107,19 +107,14 @@ def main():
             # Create the boxplot
             plt.figure(figsize=(6, 4))
             sns.set_theme(style="whitegrid")
-            sns.boxplot(
+            ax = sns.boxplot(
                 x="Client",
                 y="Engagement Score",
                 showmeans=True,
                 data=combined_data
             )         
             # Add red dot for predicted engagement score
-            sns.scatterplot(
-                x='Client',
-                y='Engagement Score',
-                data=combined_data[combined_data['Engagement Score'] == prediction],
-                color='red'
-            )
+            ax.scatter(1, prediction, color='red', marker='o', s=100)
         else:
             sns.set_theme(style="whitegrid")
             sns.boxplot(
