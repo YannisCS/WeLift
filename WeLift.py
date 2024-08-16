@@ -114,7 +114,7 @@ def main():
             g = sns.relplot(
                 data=data_new,
                 x="Performance Score", y="Engagement Score",
-                hue="Gender", size="Training Cost",
+                hue="GenderCode", size="Training Cost",
                 palette=cmap, sizes=(10, 200),
             )
             g.set(xscale="log", yscale="log")
