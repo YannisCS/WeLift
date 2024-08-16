@@ -153,24 +153,8 @@ def main():
                 showmeans=True,
                 data=data_new
                 )
-            # Highlight new client data point
-            if len(new_client) > 0:
-                new_client_x = new_client["Performance Score"].iloc[0]
-                new_client_y = new_client["Engagement Score"].iloc[0]
-                plt.scatter(new_client_x, new_client_y, color='red', s=100, label='New Client')
-
-                # Add annotation with arrow pointing to new client
-                plt.annotate("New Client", (new_client_x, new_client_y),
-                        xytext=(new_client_x + 0.2, new_client_y + 0.2),
-                        arrowprops=dict(facecolor='red', shrink=0.05))
-
-                # Add legend to differentiate new client point
-                plt.legend()
-                st.pyplot(plt)
-            else:
-                # Handle the case where there's no data in new_client (e.g., set a default value)
-                new_client_x = None  # Or any appropriate default
-                new_client_y = None
+            st.pyplot(plt)
+            
 
             
 
