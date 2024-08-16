@@ -7,3 +7,4 @@ scikit-learn == 1.2.2
 joblib
 datetime
 google.generativeai
+seaborn
