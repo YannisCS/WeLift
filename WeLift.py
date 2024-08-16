@@ -99,11 +99,20 @@ def main():
     new_client['Engagement Score'][0] = prediction
 
     if prediction != None:
+<<<<<<< HEAD
         plt.figure(figsize=(6, 4))
         if len(new_client) > 0:
             combined_data = pd.concat([data, new_client], ignore_index=True)
             combined_data['Client'] = 'All Data'
             combined_data.loc[combined_data.index == new_client.index[0], 'Client'] = 'New Client'
+=======
+        # Visualize prediction on box plot
+        fig, ax = plt.subplots()
+        ax.boxplot(data['Engagement Score'])  # Replace with your data
+        ax.scatter(1, prediction, color='red')
+        ax.text(1, prediction, f'{prediction:.2f}')
+        st.pyplot(fig)
+>>>>>>> parent of b38a462 (Update WeLift.py)
 
             # Create the boxplot
             
