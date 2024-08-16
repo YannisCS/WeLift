@@ -99,13 +99,14 @@ def main():
     new_client['Engagement Score'][0] = prediction
 
     if prediction != None:
+        plt.figure(figsize=(6, 4))
         if len(new_client) > 0:
             combined_data = pd.concat([data, new_client], ignore_index=True)
             combined_data['Client'] = 'All Data'
             combined_data.loc[combined_data.index == new_client.index[0], 'Client'] = 'New Client'
 
             # Create the boxplot
-            plt.figure(figsize=(6, 4))
+            
             sns.set_theme(style="whitegrid")
             ax = sns.boxplot(
                 x="Client",
@@ -115,7 +116,7 @@ def main():
             )         
             # Add red dot for predicted engagement score
             ax.scatter(1, prediction, color='red', marker='o', s=100)
-        else:
+        else:        
             sns.set_theme(style="whitegrid")
             sns.boxplot(
                 y="Engagement Score",
