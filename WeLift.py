@@ -113,7 +113,7 @@ def main():
             
             g = sns.relplot(
                 data=data_new,
-                x="Performance Score", y="Engagement Score",
+                x="DOB", y="Engagement Score",
                 hue="GenderCode", size="Training Cost",
                 #palette=cmap, 
                 sizes=(10, 200),
@@ -125,7 +125,7 @@ def main():
 
             # Highlight new client data point
             if len(new_client) > 0:
-                new_client_x = new_client["Performance Score"].iloc[0]
+                new_client_x = new_client["DOB"].iloc[0]
                 new_client_y = new_client["Engagement Score"].iloc[0]
                 plt.scatter(new_client_x, new_client_y, color='red', s=100, label='New Client')
 
