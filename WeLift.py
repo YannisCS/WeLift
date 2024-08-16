@@ -175,7 +175,7 @@ def main():
     with st.container():      
         st.write(response.text)
       
-    @st.cache_data
+    #@st.cache_data
     def to_text():
         return "### Script ###\n\n" + response.text
 
