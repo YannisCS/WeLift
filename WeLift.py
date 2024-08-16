@@ -110,12 +110,14 @@ def main():
 
             # 绘制改进后的图表，并标注新数据
             sns.set_theme(style="whitegrid")
-            cmap = sns.cubehelix_palette(rot=-.2, as_cmap=True)
+            #cmap = sns.cubehelix_palette(rot=-.2, as_cmap=True)
+            
             g = sns.relplot(
                 data=data_new,
                 x="Performance Score", y="Engagement Score",
                 hue="GenderCode", size="Training Cost",
-                palette=cmap, sizes=(10, 200),
+                #palette=cmap, 
+                sizes=(10, 200),
             )
             g.set(xscale="log", yscale="log")
             g.ax.xaxis.grid(True, "minor", linewidth=.25)
