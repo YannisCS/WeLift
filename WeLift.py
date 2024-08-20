@@ -116,8 +116,11 @@ def main():
         # Visualize prediction on box plot
 =======
         # Visualize prediction on box plot
+<<<<<<< HEAD
         st.write('Engagement Score among all Clients:')
 >>>>>>> parent of f11cd8d (plots)
+=======
+>>>>>>> parent of b38a462 (Update WeLift.py)
         fig, ax = plt.subplots()
         ax.boxplot(data['Engagement Score'])  # Replace with your data
         ax.scatter(1, prediction, color='red')
